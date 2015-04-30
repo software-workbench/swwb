@@ -1,0 +1,14 @@
+#Naming conventions:
+#表名：全字母/首字母大写
+#字段：字母，下划线/全小写
+
+1 User
+  id name mail passwd groupid 
+2 Relationship
+  userid ownerid 
+3 Group
+  id name
+4 Category
+  id name groupid
+5 Applygit
+  originatorid categoryid 
