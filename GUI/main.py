@@ -728,7 +728,39 @@ class StrImpFrame(wx.Frame):
             self.SetStatusText(u"请先检测代码环境!")
 
     def OnStart(self,e):
-        pass
+        data = xlrd.open_workbook(self.Dir1.GetValue())
+        table = data.sheets()[0]
+        firstlists = table.row_values(0)
+        rows = table.nrows
+        for one in gen_lines("%s/misc/.import_languages_need"%PWD):
+            i = 0
+            for item in firstlists:
+                if one == item:
+                    localrow = i
+                    break
+                else:
+                    i = i + 1
+            for i in range(1,rows):
+                listi = table.row_values(i)
+                pathi = listi[0]
+                typei = listi[1]
+                namei = listi[2]
+                lengi = listi[3]
+                value = listi[localrow]
+                i = i + 1
+                if pathi == table.row_values(i-1)[0] and typei == table.row_values(i-1)[1] and namei == table.row_values(i-1)[2]:
+                    pass
+                else:
+                    file1 = pathi.split("/values/")[0]+"/"+one+"/"+pathi.split("/values/")[1]+"tmpbak"
+                    if os.path.exists(file1):
+                        pass
+                    else:
+                        f = open(file1,"w")
+                        f.write()
+ 
+                
+                
+        
 
 class ScmGitFrame(wx.Frame):
     def __init__(self):
