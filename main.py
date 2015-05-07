@@ -18,6 +18,7 @@ import getpass
 import xlrd
 import xlwt
 import time
+
 reload(sys)
 sys.setdefaultencoding("utf8")
 
@@ -27,24 +28,140 @@ USER = getpass.getuser()
 REMEMBER_ACCOUNT_FILE = "/home/%s/.swwb_remember_account"%USER
 AUTOMATIC_LOGIN_FILE  = "/home/%s/.swwb_automatic_login"%USER
 LANG_CODE = {
-    "af":u"南非语","am":u"阿姆哈拉语","ar":u"阿拉伯语","az":u"阿塞拜疆语","be":u"白俄罗斯语","bg":u"保加利亚语","bn":u"孟加拉语",
-    "bs":u"波斯尼亚语","ca":u"加泰罗尼亚语","cs":u"捷克","da":u"丹麦","de":u"德语","el":u"希腊","en":u"英语","es":u"西班牙语",
-    "et":u"爱沙尼亚语","fa":u"波斯语","fi":u"芬兰语","fr":u"法语","hr":u"克罗地亚语","he":u"希伯来语","hi":u"印地语","hu":u"匈牙利语",
-    "hy":u"亚美尼亚语","in":u"印尼语","it":u"意大利语","iw":u"希伯来语","ja":u"日语","ka":u"格鲁吉亚语","kk":u"哈萨克斯坦语","km":u"柬埔寨",
-    "ko":u"朝鲜语","lo":u"老挝语","lt":u"立陶宛语","lv":u"拉脱维亚语","mk":u"马其顿语","mn":u"蒙古语","ms":u"马来语","my":u"缅甸语",
-    "nb":u"挪威语","ne":u"尼泊尔语","nl":u"荷兰语","pl":u"波兰语","pt":u"葡萄牙语","rm":u"罗曼什语","ro":u"罗马尼亚语","ru":u"俄语",
-    "si":u"僧加罗语","sk":u"斯洛伐克语","sl":u"斯洛文尼亚语","sr":u"塞尔维亚语","sv":u"瑞典语","sw":u"斯瓦希里语","th":u"泰语","tl":u"菲律宾语",
-    "tr":u"土耳其语","uk":u"乌克兰语","ur":u"乌尔都语","vi":u"越南语","zh":u"中文","zu":u"祖鲁语",}
+    "af":u"南非语",
+    "am":u"阿姆哈拉语",
+    "ar":u"阿拉伯语",
+    "az":u"阿塞拜疆语",
+    "be":u"白俄罗斯语",
+    "bg":u"保加利亚语",
+    "bn":u"孟加拉语",
+    "bs":u"波斯尼亚语",
+    "ca":u"加泰罗尼亚语",
+    "cs":u"捷克",
+    "da":u"丹麦",
+    "de":u"德语",
+    "el":u"希腊",
+    "en":u"英语",
+    "es":u"西班牙语",
+    "et":u"爱沙尼亚语",
+    "fa":u"波斯语",
+    "fi":u"芬兰语",
+    "fr":u"法语",
+    "hr":u"克罗地亚语",
+    "he":u"希伯来语",
+    "hi":u"印地语",
+    "hu":u"匈牙利语",
+    "hy":u"亚美尼亚语",
+    "in":u"印尼语",
+    "it":u"意大利语",
+    "iw":u"希伯来语",
+    "ja":u"日语",
+    "ka":u"格鲁吉亚语",
+    "kk":u"哈萨克斯坦语",
+    "km":u"柬埔寨",
+    "ko":u"朝鲜语",
+    "lo":u"老挝语",
+    "lt":u"立陶宛语",
+    "lv":u"拉脱维亚语",
+    "mk":u"马其顿语",
+    "mn":u"蒙古语",
+    "ms":u"马来语",
+    "my":u"缅甸语",
+    "nb":u"挪威语",
+    "ne":u"尼泊尔语",
+    "nl":u"荷兰语",
+    "pl":u"波兰语",
+    "pt":u"葡萄牙语",
+    "rm":u"罗曼什语",
+    "ro":u"罗马尼亚语",
+    "ru":u"俄语",
+    "si":u"僧加罗语",
+    "sk":u"斯洛伐克语",
+    "sl":u"斯洛文尼亚语",
+    "sr":u"塞尔维亚语",
+    "sv":u"瑞典语",
+    "sw":u"斯瓦希里语",
+    "th":u"泰语",
+    "tl":u"菲律宾语",
+    "tr":u"土耳其语",
+    "uk":u"乌克兰语",
+    "ur":u"乌尔都语",
+    "vi":u"越南语",
+    "zh":u"中文",
+    "zu":u"祖鲁语",}
 
 COUT_CODE = {
-    "AT":u"奥地利","AU":u"澳大利亚","AM":u"亚美尼亚","AZ":u"阿塞拜疆","BA":u"波斯尼亚","BD":u"孟加拉国","BE":u"比利时","BG":u"保加利亚",
-    "BR":u"巴西","BY":u"白俄罗斯","CA":u"加拿大","CH":u"瑞士","CN":u"中国","CZ":u"捷克","DE":u"德国","DK":u"丹麦","EE":u"爱沙尼亚",
-    "EG":u"埃及","ES":u"西班牙","ET":u"埃塞俄比亚","FI":u"芬兰","FR":u"法国","GE":u"格鲁吉亚","GB":u"英国","GR":u"希腊","HK":u"香港",
-    "HR":u"克罗地亚","HU":u"匈牙利","ID":u"印尼","IE":u"爱尔兰","IL":u"以色列","IN":u"印度","IR":u"伊朗","IT":u"意大利","JP":u"日本",
-    "KH":u"柬埔寨","KR":u"韩国","KZ":u"哈撒克斯塔","LA":u"老挝","LI":u"列支登士敦","LK":u"斯里兰卡","LT":u"立陶宛","LV":u"拉脱维亚",
-    "MK":u"马其顿","MM":u"缅甸","MN":u"蒙古","MY":u"马来西亚","NL":u"荷兰","NO":u"挪威","NP":u"尼泊尔","NZ":u"新西兰","PH":u"菲律宾",
-    "PK":u"巴基斯坦","PL":u"波兰","PT":u"葡萄牙","RO":u"罗马尼亚","RS":u"塞尔维亚","RU":u"俄罗斯","SE":u"瑞典","SG":u"新加坡","SI":u"斯洛文尼亚",
-    "SK":u"斯洛伐克","TH":u"泰国","TR":u"土耳其","TW":u"台湾","TZ":u"坦桑尼亚","UA":u"乌克兰","US":u"美国","VN":u"越南","ZA":u"南非","ZG":u"缅甸",}
+    "AT":u"奥地利",
+    "AU":u"澳大利亚",
+    "AM":u"亚美尼亚",
+    "AZ":u"阿塞拜疆",
+    "BA":u"波斯尼亚",
+    "BD":u"孟加拉国",
+    "BE":u"比利时",
+    "BG":u"保加利亚",
+    "BR":u"巴西",
+    "BY":u"白俄罗斯",
+    "CA":u"加拿大",
+    "CH":u"瑞士",
+    "CN":u"中国",
+    "CZ":u"捷克",
+    "DE":u"德国",
+    "DK":u"丹麦",
+    "EE":u"爱沙尼亚",
+    "EG":u"埃及",
+    "ES":u"西班牙",
+    "ET":u"埃塞俄比亚",
+    "FI":u"芬兰",
+    "FR":u"法国",
+    "GE":u"格鲁吉亚",
+    "GB":u"英国",
+    "GR":u"希腊",
+    "HK":u"香港",
+    "HR":u"克罗地亚",
+    "HU":u"匈牙利",
+    "ID":u"印尼",
+    "IE":u"爱尔兰",
+    "IL":u"以色列",
+    "IN":u"印度",
+    "IR":u"伊朗",
+    "IT":u"意大利",
+    "JP":u"日本",
+    "KH":u"柬埔寨",
+    "KR":u"韩国",
+    "KZ":u"哈撒克斯塔",
+    "LA":u"老挝",
+    "LI":u"列支登士敦",
+    "LK":u"斯里兰卡",
+    "LT":u"立陶宛",
+    "LV":u"拉脱维亚",
+    "MK":u"马其顿",
+    "MM":u"缅甸",
+    "MN":u"蒙古",
+    "MY":u"马来西亚",
+    "NL":u"荷兰",
+    "NO":u"挪威",
+    "NP":u"尼泊尔",
+    "NZ":u"新西兰",
+    "PH":u"菲律宾",
+    "PK":u"巴基斯坦",
+    "PL":u"波兰",
+    "PT":u"葡萄牙",
+    "RO":u"罗马尼亚",
+    "RS":u"塞尔维亚",
+    "RU":u"俄罗斯",
+    "SE":u"瑞典",
+    "SG":u"新加坡",
+    "SI":u"斯洛文尼亚",
+    "SK":u"斯洛伐克",
+    "TH":u"泰国",
+    "TR":u"土耳其",
+    "TW":u"台湾",
+    "TZ":u"坦桑尼亚",
+    "UA":u"乌克兰",
+    "US":u"美国",
+    "VN":u"越南",
+    "ZA":u"南非",
+    "ZG":u"缅甸",}
 
 def myget(cmd):return commands.getoutput(cmd)
 def mysuccess():myprint('m', 'Successed!')
@@ -63,7 +180,6 @@ def lists_to_file(LIST, filename):
         one = one + '\n'
         f.write(one.encode('utf-8'))
     f.close()
-
 
 def gen_language_class(DIR):
     lists = []
@@ -99,6 +215,7 @@ def gen_paths(DIR):
     cmd = cmd + "-name values"
     return myget(cmd)
 
+
 class SCMHanFrame(wx.Frame):
     def __init__(self,user):
         wx.Frame.__init__(self,None,-1,"Handle",size=(600,500))
@@ -123,6 +240,7 @@ class SCMHanFrame(wx.Frame):
 
     def OnRun(self,e):
         pass
+
 
 class Import(wx.Frame):
     def __init__(self,lists):
@@ -298,8 +416,6 @@ class StringsExpFrame(wx.Frame):
         if os.path.exists("%s/misc/.languages_need"%PWD):
             self.SetStatusText("Start to export strings...")
             self.OnExport()
-
-
 
     def OnExport(self):
         wbk = xlwt.Workbook(encoding='utf-8')
@@ -587,7 +703,6 @@ class StringsFilFrame(wx.Frame):
         mysys("nautilus %s/out"%PWD)
 
 
-
 class StringsImpFrame(wx.Frame):
     def __init__(self,user):
         wx.Frame.__init__(self,None,-1,"Import",size=(600,500))
@@ -836,6 +951,7 @@ class ApplyGitFrame(wx.Frame):
     def OnRun(self,e):
         pass
 
+
 class ApplyBraFrame(wx.Frame):
     def __init__(self,user):
         wx.Frame.__init__(self,None,-1,"Branch",size=(600,500))
@@ -860,6 +976,7 @@ class ApplyBraFrame(wx.Frame):
 
     def OnRun(self,e):
         pass
+
 
 class ApplyDaiFrame(wx.Frame):
     def __init__(self,user):
@@ -886,6 +1003,7 @@ class ApplyDaiFrame(wx.Frame):
     def OnRun(self,e):
         pass
 
+
 class ApplyRelFrame(wx.Frame):
     def __init__(self,user):
         wx.Frame.__init__(self,None,-1,"Release",size=(600,500))
@@ -910,6 +1028,7 @@ class ApplyRelFrame(wx.Frame):
 
     def OnRun(self,e):
         pass
+
 
 class FileSetFrame(wx.Frame):
     def __init__(self,user):
@@ -936,6 +1055,7 @@ class FileSetFrame(wx.Frame):
     def OnRun(self,e):
         pass
 
+
 class FileUpdFrame(wx.Frame):
     def __init__(self,user):
         wx.Frame.__init__(self,None,-1,"Update",size=(600,500))
@@ -961,6 +1081,7 @@ class FileUpdFrame(wx.Frame):
     def OnRun(self,e):
         pass
 
+
 class FileAboFrame(wx.Frame):
     def __init__(self,user):
         wx.Frame.__init__(self,None,-1,"About",size=(600,500))
@@ -985,6 +1106,7 @@ class FileAboFrame(wx.Frame):
 
     def OnRun(self,e):
         pass
+
 
 class WorkbenchFrame(wx.Frame):
     def __init__(self,user):
@@ -1138,7 +1260,7 @@ class WorkbenchFrame(wx.Frame):
 
 class Login(wx.Frame):
     def __init__(self):
-        wx.Frame.__init__(self,None,-1,u"Login",size=(300,175))
+        wx.Frame.__init__(self,None,-1,u"Login",size=(300,160))
         panel = wx.Panel(self,-1)
         self.Center()
         self.SetBackgroundColour(wx.Color(255,255,255))
@@ -1210,6 +1332,7 @@ class Login(wx.Frame):
             f.close()
         self.Close()
         WorkbenchFrame(user).Show()
+
 
 if __name__ == '__main__':
     mysys("rm -rf ./misc/.*language* *.log")
